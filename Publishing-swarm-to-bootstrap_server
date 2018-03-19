@@ -1,0 +1,15 @@
+from flask import Flask
+from flask import request
+ 
+app = Flask(__name__)
+ 
+@app.route("/publishjson", methods = ['POST'])
+
+def publishjson():
+    serverip = ('localhost:8000/publish')
+    metadata ={'swarm':'api.py', 'msgdigest': 'asdfghjk123456', 'size': 1024, 'filenmae': 'api1.py'}
+    data = requests.post(serverip, json = metadata)
+    return data
+
+if __name__ == "__main__":
+    app.run()
