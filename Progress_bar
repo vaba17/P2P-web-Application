@@ -1,0 +1,15 @@
+import hashlib
+import os
+import progressbar
+import time
+
+pbar = progressbar.ProgressBar(widgets =[progressbar.Percentage(), '', progressbar.ETA()])  # It shows Progressbar with time
+
+os.chdir("/home/vamshi/Desktop")
+                                                        # File to check
+file_name = raw_input ("Enter the file name:")
+
+
+
+for n in pbar(range(100)):   #In replace 100 by defined function
+    time.sleep(0.5)
