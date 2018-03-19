@@ -1,0 +1,18 @@
+from tqdm import tqdm
+import requests
+import os
+
+chunk_size = 1024                    #it takes 1KB to download
+
+url = "http://www.pdf995.com/samples/pdf.pdf"  #replace url with required file name.
+r= requests.get(url, stream = True)
+total_size = int(r.headers['content-length'])
+
+
+os.chdir("/home/vamshi/Desktop")       #directory where the file is downloaded
+with open ("Liza", 'wb') as f:         # file name
+    for data in tqdm(iterable = r.iter_content(chunk_size = chunk_size), total = total_size/chunk_size, unit = 'KB'):
+        f.write(data)
+
+
+    print("Download Completed!")
