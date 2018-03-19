@@ -1,0 +1,74 @@
+import os
+import hashlib
+import time
+import filecmp
+import sys
+
+#defining message digest function
+
+def hash_file(filename):
+    h = hashlib.sha1()
+    with open(filename, 'rb') as file:
+        chunk = 0
+        while chunk != b'':
+            # read only 1024 bytes at a time
+            chunk = file.read(1024)
+            h.update(chunk)
+        return h.hexdigest()
+        
+        
+
+#create a p2pdwnlds file on the desktop
+watchdir = '/home/vamshi/Desktop/p2pdwnlds'
+dirmtime = os.stat(watchdir).st_mtime
+contents = os.listdir(watchdir)
+
+
+while True:
+    newmtime = os.stat(watchdir).st_mtime
+    if newmtime != dirmtime:
+        dirmtime = newmtime
+        newcontents = os.listdir(watchdir)
+        added = set(newcontents).difference(contents)
+        if added:
+            newfile= " ".join(added)
+            print "Files added: %s" % newfile
+            onlyname = ( newfile.rsplit( ".", 1 )[ 0 ] )        
+            
+
+#-----------------------------------------------------------------------------
+#-----------------------------------------------------------------------------
+#-----------------------------------------------------------------------------
+
+
+            # opening file and checking the position
+
+        for (dirname, dirs, files) in os.walk('/home/vamshi/Desktop/p2pdwnlds'):
+            for filename in files:
+                thefile = os.path.join(dirname, filename)
+                message = hash_file(thefile)
+                print(message)
+                os.chdir("/home/vamshi/Desktop")
+                msgdsg = open("message digest", 'w+')
+                msgdsg.write(filename + '\n')
+                msgdsg.write((message) + '\n')
+                msgdsg.close()
+                
+                
+#----------------------------------------------------------------------------------
+            #---------------comparision-----------------------------
+
+            os.chdir("/home/vamshi/Desktop/")
+
+            with open(('swarm metadata for %s' % onlyname), 'r+') as f:
+                list1 = [line.rstrip('\n') for line in open('swarm metadata for %s' % onlyname)]
+                print "list1 = ", list1
+
+            with open('message digest', 'r+') as f:
+                list2 = [line.rstrip('\n') for line in open('message digest')]
+                print "list2 = ", list2
+
+            if set(list1) & set(list2):
+                print "successfully downloaded"
+            else:
+                print "unsuccessfully downloaded"
