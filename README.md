@@ -1,4 +1,7 @@
 # P2P-web-Application
+#Python3
+#MySQL
+#Restfull-API
 A web application for peer to peer networking and sharing.
 -> This application is peer to peer where the downloading the file is done from multiple peers.
 -> This can access all file formats.
